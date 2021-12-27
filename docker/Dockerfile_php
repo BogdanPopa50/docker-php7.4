@@ -1,0 +1,35 @@
+FROM php:7.4-apache
+
+ENV TZ="UTC"
+
+# Install updates
+RUN apt-get -y update --fix-missing
+RUN apt-get upgrade -y
+
+# Install useful tools
+RUN apt-get -y install apt-utils wget dialog ntp
+
+# Install some libraries
+RUN apt-get -y install --fix-missing apt-utils build-essential git curl  libcurl4 libcurl4-openssl-dev zip wget apt-transport-https gnupg
+
+# Other PHP7 Extensions
+RUN apt-get -y install libsqlite3-dev libsqlite3-0  
+RUN docker-php-ext-install  pdo_mysql  mysqli  curl json mbstring  bcmath
+  
+# Enable apache modules
+RUN a2enmod rewrite headers
+RUN a2enmod ssl
+RUN a2enmod rewrite
+
+# Fix Permission
+RUN usermod -u 1000 www-data
+
+RUN  service apache2 restart
+
+WORKDIR /var/www/html 
+
+COPY app/ .
+
+RUN chown -R www-data:www-data /var/www
+
+EXPOSE 80

@@ -1,0 +1,39 @@
+version: '3.3'
+services:
+    docker-php:
+        container_name: docker_php
+        restart: always
+        build:
+            context: ./
+            dockerfile: docker/Dockerfile_php
+            #dockerfile: docker/Dockerfile_php_dev
+        depends_on:
+            - docker_php_db
+        volumes:
+            - ./app:/var/www/html
+        ports:
+            - 8200:80
+    docker_php_db:
+        container_name: docker_php_db
+        restart: always
+        image: mysql                
+        environment:
+            MYSQL_ROOT_PASSWORD: mysql123?
+            MYSQL_DATABASE: database_php
+            MYSQL_USER: user_php
+            MYSQL_PASSWORD: mysql123?
+            TZ: UTC
+        ports:
+            - 8201:3306
+    phpmyadmin:
+        container_name: docker_php_phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - 8202:80
+        restart: always
+        environment:
+            PMA_HOST: docker_php_db
+            TZ: UTC
+        depends_on:
+            - docker_php_db
+     

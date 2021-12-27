@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+    docker_php:
+        container_name: docker_php
+        restart: always
+        build:
+            context: ./
+            dockerfile: docker/Dockerfile_php
+            #dockerfile: docker/Dockerfile_php_dev
+        volumes:
+            - ./app:/var/www/html
+        ports:
+            - 8200:80
+   
+     

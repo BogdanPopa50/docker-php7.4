@@ -1,0 +1,4 @@
+* * * * * echo "Hello world" >> /var/log/cron_php.log 2>&1
+# Don't remove the empty line at the end of this file. It is required to run the cron job
+* * * * * echo "hello stackoverflow" >> /test_file 2>&1
+# remember to end this file with an empty new line
