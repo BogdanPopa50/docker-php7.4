@@ -11,5 +11,7 @@ services:
             - ./app:/var/www/html
         ports:
             - 8200:80
+        extra_hosts:
+            - "host.docker.internal:host-gateway"   
    
      
